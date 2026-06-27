@@ -1,5 +1,6 @@
 package com.tejashree.codereviewlab.features.counter
 
+import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -31,23 +32,31 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.tejashree.codereviewlab.ui.theme.CodeReviewLabTheme
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewSimpleCounter() {
-    SimpleCounter()
-}
-
-@Preview(showBackground = true)
+@Preview(name = "Light Mode", showBackground = true)
+@Preview(name = "Dark Mode", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
 @Composable
 fun PreviewSimpleCounterContent() {
-    SimpleCounterContent(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
-            .height(200.dp)
-    )
+    CodeReviewLabTheme {
+        SimpleCounterContent(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+                .height(200.dp)
+        )
+    }
 }
+
+@Preview(name = "Light Mode", showBackground = true)
+@Preview(name = "Dark Mode", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
+@Composable
+fun PreviewSimpleCounter() {
+    CodeReviewLabTheme {
+        SimpleCounter()
+    }
+}
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
