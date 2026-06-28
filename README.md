@@ -9,7 +9,7 @@ A basic state management exercise demonstrating:
 - **`rememberSaveable`**: Persisting state across configuration changes.
 - **Custom Theming**: Use of gradients and custom button styles.
 - **Interactive UI**: Increment and decrement functionality.
-- 
+
 ### 2. Search & Filter Screen
 A robust implementation of a product listing screen that includes:
 - **Search Functionality**: Real-time filtering of products by name using a search query.
