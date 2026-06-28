@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -28,10 +27,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.tejashree.codereviewlab.features.common.AppTopBar
 import com.tejashree.codereviewlab.ui.theme.CodeReviewLabTheme
 
 @Preview(name = "Light Mode", showBackground = true)
@@ -64,7 +63,7 @@ fun SimpleCounter(modifier: Modifier = Modifier) {
 
     Scaffold(
         topBar = {
-            SimpleCounterTopBar("Simple Counter")
+            AppTopBar("Simple Counter")
         }
     ) { innerPadding ->
         SimpleCounterContent(
@@ -157,16 +156,3 @@ fun CounterButton(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun SimpleCounterTopBar(title: String = "Simple Counter") {
-    CenterAlignedTopAppBar(
-        title = {
-            Text(
-                text = title,
-                style = MaterialTheme.typography.headlineLarge,
-                fontWeight = FontWeight.Bold,
-                fontSize = 32.sp
-            )
-        })
-}
