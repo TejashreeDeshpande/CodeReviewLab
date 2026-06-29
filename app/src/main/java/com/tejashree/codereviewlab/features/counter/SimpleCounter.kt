@@ -27,6 +27,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.LiveRegionMode
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.liveRegion
+import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -106,6 +113,10 @@ fun SimpleCounterContent(
         ) {
             Text(
                 text = counter.toString(),
+                modifier = Modifier.semantics {
+                    liveRegion = LiveRegionMode.Polite
+                    contentDescription = "Current count is $counter"
+                },
                 style = MaterialTheme.typography.displayLarge,
                 color = MaterialTheme.colorScheme.background
             )
@@ -128,15 +139,25 @@ fun SimpleCounterContent(
     }
 }
 
-enum class ButtonType(val label: String) {
-    INCREMENT(" + "), DECREMENT(" - ")
+enum class ButtonType(
+    val label: String,
+    val contentDescription: String
+) {
+    INCREMENT(" + ", "Increment"),
+    DECREMENT(" - ", "Decrement")
 }
 
 @Composable
 fun CounterButton(
-    onClick: () -> Unit, buttonType: ButtonType
+    onClick: () -> Unit,
+    buttonType: ButtonType,
+    modifier: Modifier = Modifier
 ) {
     ElevatedButton(
+        modifier = modifier.clearAndSetSemantics {
+            contentDescription = buttonType.contentDescription
+            role = Role.Button
+        },
         colors = ButtonDefaults.buttonColors(
             containerColor = when (buttonType) {
                 ButtonType.INCREMENT -> MaterialTheme.colorScheme.primary
