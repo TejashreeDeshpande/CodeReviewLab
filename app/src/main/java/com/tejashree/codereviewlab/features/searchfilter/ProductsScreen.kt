@@ -33,6 +33,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.semantics.LiveRegionMode
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.liveRegion
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.tejashree.codereviewlab.features.common.AppTopBar
@@ -202,6 +206,8 @@ fun ProductsListScreen(
             modifier = Modifier.fillMaxWidth(),
             value = query,
             onValueChange = { newValue -> onQueryChange(newValue) },
+            label = { Text("Search products") },
+            singleLine = true
         )
         FlowRow {
             ProductCategory.entries.forEach { category ->
@@ -212,16 +218,47 @@ fun ProductsListScreen(
             }
         }
         if (products.isEmpty()) {
-            Text("No product available")
+            Text(
+                "No product available for `$query`",
+                modifier = Modifier.semantics {
+                    liveRegion = LiveRegionMode.Polite
+                },
+                style = MaterialTheme.typography.bodyMedium
+            )
         } else {
-            LazyColumn {
+            LazyColumn(
+                modifier = Modifier.semantics {
+                    contentDescription = "Sharing ${products.size} products"
+                }
+            ) {
                 items(
-                    products, key = { it.id }) { item ->
-
-                    Card {
-                        ListItem(headlineContent = {
-                            Text(item.name)
-                        })
+                    products,
+                    key = { it.id }
+                ) { item ->
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 4.dp, horizontal = 8.dp)
+                            .semantics(mergeDescendants = true) {
+                                contentDescription =
+                                    "${item.name}, ${item.category.title}. ${item.desc}"
+                            }
+                    ) {
+                        ListItem(
+                            headlineContent = {
+                                Text(item.name)
+                            },
+                            supportingContent = {
+                                Text(item.desc, style = MaterialTheme.typography.bodySmall)
+                            },
+                            trailingContent = {
+                                Text(
+                                    text = item.category.title,
+                                    style = MaterialTheme.typography.labelSmall,
+                                    color = MaterialTheme.colorScheme.secondary
+                                )
+                            }
+                        )
                     }
                 }
             }
@@ -254,6 +291,10 @@ fun ProductLoadingState(modifier: Modifier = Modifier) {
             .padding(16.dp)
             .background(MaterialTheme.colorScheme.background)
     ) {
-        CircularProgressIndicator()
+        CircularProgressIndicator(
+            modifier = Modifier.semantics {
+                contentDescription = "Loading products"
+            }
+        )
     }
 }
