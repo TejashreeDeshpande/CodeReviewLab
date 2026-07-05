@@ -21,7 +21,6 @@ secrets.properties
 *.keystore
 *.pk8
 *.pem
-google-services.json
 
 # Android-specific
 /captures
@@ -31,7 +30,7 @@ google-services.json
 *.ap_
 *.dex
 *.hprof
-*.pyc
+google-services.json
 
 # OS generated files
 .DS_Store
