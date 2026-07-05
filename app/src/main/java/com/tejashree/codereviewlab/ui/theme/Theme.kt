@@ -9,18 +9,53 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+    primary = InboxAccentDark,
+    onPrimary = InboxBackgroundDark,
+    secondary = InboxSecondaryDark,
+    onSecondary = InboxPrimaryDark,
+    tertiary = InboxAccentDark,
+    onTertiary = InboxBackgroundDark,
+    surface = InboxSurfaceDark,
+    onSurface = InboxPrimaryDark,
+    background = InboxBackgroundDark,
+    onBackground = InboxPrimaryDark,
+    primaryContainer = Color(0xFF0C4A6E), // Sky 900
+    onPrimaryContainer = Color(0xFFE0F2FE), // Sky 100
+    secondaryContainer = Color(0xFF1E293B), // Slate 800
+    onSecondaryContainer = InboxSecondaryDark,
+    surfaceVariant = Color(0xFF1E293B), // Slate 800 - Professional Gray Card
+    onSurfaceVariant = InboxPrimaryDark,
+    error = InboxErrorDark,
+    onError = InboxBackgroundDark,
+    errorContainer = Color(0xFF7F1D1D), // Red 900
+    onErrorContainer = InboxErrorDark
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
+    primary = InboxPrimary,
+    onPrimary = Color.White,
+    secondary = InboxSecondary,
+    onSecondary = Color.White,
+    tertiary = InboxAccent,
+    onTertiary = Color.White,
+    surface = InboxSurface,
+    onSurface = InboxPrimary,
+    background = Color.White, // Pure white background for gray cards to pop
+    onBackground = InboxPrimary,
+    primaryContainer = Color(0xFFE0F2FE), // Sky 100 for soft but visible containers
+    onPrimaryContainer = Color(0xFF0369A1), // Sky 700
+    secondaryContainer = Color(0xFFF1F5F9), // Slate 100 for secondary elements
+    onSecondaryContainer = InboxSecondary,
+    surfaceVariant = Color(0xFFF8FAFC), // Slate 50 - Very subtle Gray
+    onSurfaceVariant = InboxPrimary,
+    error = InboxError,
+    onError = Color.White,
+    errorContainer = Color(0xFFFEE2E2), // Red 100
+    onErrorContainer = InboxError,
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),

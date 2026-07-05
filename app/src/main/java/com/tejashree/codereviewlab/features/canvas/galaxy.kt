@@ -16,9 +16,11 @@ import androidx.compose.ui.graphics.*
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import kotlin.math.*
 import kotlin.random.Random
+
 
 @Immutable
 data class InkParticle(
@@ -30,6 +32,11 @@ data class InkParticle(
     val color: Color
 )
 
+@Preview
+@Composable
+fun PreviewFluidCanvasScreen() {
+    FluidCanvasScreen()
+}
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FluidCanvasScreen() {

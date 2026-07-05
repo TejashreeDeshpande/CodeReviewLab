@@ -1,5 +1,6 @@
 package com.tejashree.codereviewlab.features.common
 
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -11,7 +12,9 @@ import androidx.compose.ui.unit.sp
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppTopBar(
-    title: String
+    title: String,
+    navigationIcon: @Composable () -> Unit = {},
+    actions: @Composable RowScope.() -> Unit = {},
 ) {
     CenterAlignedTopAppBar(
         title = {
@@ -21,6 +24,8 @@ fun AppTopBar(
                 fontWeight = FontWeight.Bold,
                 fontSize = 32.sp
             )
-        }
+        },
+        navigationIcon = navigationIcon,
+        actions = actions
     )
 }

@@ -1,0 +1,21 @@
+package com.tejashree.codereviewlab
+
+import android.app.Application
+import com.tejashree.codereviewlab.features.mvi.notification.di.notificationAppModule
+import com.tejashree.codereviewlab.features.mvvm.notes.di.notesAppModule
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.startKoin
+
+class CodeReviewApp : Application() {
+    override fun onCreate() {
+        super.onCreate()
+
+        startKoin {
+            androidLogger()
+            androidContext(this@CodeReviewApp)
+            modules(notesAppModule)
+            modules(notificationAppModule)
+        }
+    }
+}

@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -44,8 +45,25 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.material3)
+
     implementation(libs.kotlinx.collections.immutable)
+
     implementation("androidx.compose.material:material-icons-extended")
+    // Koin BOM to manage versions consistently
+    implementation(platform("io.insert-koin:koin-bom:4.1.0"))
+    // Core Koin Android features
+    implementation("io.insert-koin:koin-android")
+    // Optional: If you use Jetpack Compose
+    implementation("io.insert-koin:koin-androidx-compose")
+
+    // Navigation 3 artifacts
+    implementation(libs.androidx.navigation3.runtime)
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.navigation3.ui)
+    implementation("androidx.lifecycle:lifecycle-viewmodel-navigation3:2.11.0")
+
+    // Serialization engine for type-safe route parsing
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
 
     testImplementation(libs.junit)
     androidTestImplementation(platform(libs.androidx.compose.bom))

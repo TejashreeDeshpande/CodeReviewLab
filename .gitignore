@@ -1,31 +1,37 @@
-# Built objects
-*.class
-*.os
-*.obj
-*.o
-*.a
-*.lib
-*.so
-*.dll
-*.pyc
+# Gradle files
+.gradle/
+build/
+*/build/
+.kotlin/
 
-# Log files
-*.log
-
-# Android Studio / IntelliJ IDEA
+# IDE files
 .idea/
 *.iml
 *.iws
 *.ipr
 out/
-
-# Gradle
-.gradle/
-build/
-.kotlin/
+.navigation/
 
 # Local configuration
 local.properties
+secrets.properties
+
+# Signing files
+*.jks
+*.keystore
+*.pk8
+*.pem
+google-services.json
+
+# Android-specific
+/captures
+.externalNativeBuild
+.cxx
+*.apk
+*.ap_
+*.dex
+*.hprof
+*.pyc
 
 # OS generated files
 .DS_Store
@@ -36,14 +42,8 @@ local.properties
 ehthumbs.db
 Thumbs.db
 
-# Android-specific
-/captures
-.externalNativeBuild
-.cxx
-*.apk
-*.ap_
-*.dex
-*.hprof
+# Log files
+*.log
 
 # Backup files
 *~

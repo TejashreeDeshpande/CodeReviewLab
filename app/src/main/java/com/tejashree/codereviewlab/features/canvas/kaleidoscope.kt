@@ -20,7 +20,19 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.rotate
+import androidx.compose.ui.tooling.preview.Preview
 
+@Preview
+@Composable
+fun PreviewSimpleKaleidoscopeCanvas() {
+    SimpleKaleidoscopeCanvas()
+}
+
+@Preview
+@Composable
+fun PreviewProfessionalKaleidoscopeCanvas() {
+    ProfessionalKaleidoscopeCanvas()
+}
 @Composable
 fun SimpleKaleidoscopeCanvas() {
     val transition = rememberInfiniteTransition(label = "kaleidoscope")
