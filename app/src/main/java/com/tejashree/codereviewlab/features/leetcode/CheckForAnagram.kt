@@ -8,7 +8,7 @@ class CheckForAnagram {
 
         for (i in s.indices) {
             count[s[i] - 'a']++
-            count[s[i] - 'a']--
+            count[t[i] - 'a']--
         }
 
         return count.all { it == 0 }
