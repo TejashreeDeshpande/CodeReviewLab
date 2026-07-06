@@ -29,3 +29,22 @@ val InboxSurfaceDark = Color(0xFF0F172A)    // Slate 900
 val InboxSuccessDark = Color(0xFF34D399)    // Emerald 400
 val InboxWarningDark = Color(0xFFFBBF24)    // Amber 400
 val InboxErrorDark = Color(0xFFF87171)      // Red 400
+
+val BluePrimary = Color(0xFF2563EB)
+val BlueLight = Color(0xFFDBEAFE)
+
+val Green = Color(0xFF10B981)
+val GreenLight = Color(0xFFD1FAE5)
+
+val Background = Color(0xFFF8FAFC)
+val Surface = Color(0xFFFFFFFF)
+val SurfaceVariant = Color(0xFFF1F5F9)
+
+val TextPrimary = Color(0xFF0F172A)
+val TextSecondary = Color(0xFF475569)
+val TextDisabled = Color(0xFF94A3B8)
+
+val Border = Color(0xFFCBD5E1)
+
+val Warning = Color(0xFFF59E0B)
+val Error = Color(0xFFEF4444)
