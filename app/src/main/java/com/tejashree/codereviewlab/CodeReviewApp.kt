@@ -1,6 +1,7 @@
 package com.tejashree.codereviewlab
 
 import android.app.Application
+import com.tejashree.codereviewlab.features.leaderboard.di.leaderboardModule
 import com.tejashree.codereviewlab.features.mvi.notification.di.notificationAppModule
 import com.tejashree.codereviewlab.features.mvvm.notes.di.notesAppModule
 import com.tejashree.codereviewlab.features.smartparking.di.smartParkingModule
@@ -15,9 +16,11 @@ class CodeReviewApp : Application() {
         startKoin {
             androidLogger()
             androidContext(this@CodeReviewApp)
+
             modules(notesAppModule)
             modules(notificationAppModule)
             modules(smartParkingModule)
+            modules(leaderboardModule)
         }
     }
 }
