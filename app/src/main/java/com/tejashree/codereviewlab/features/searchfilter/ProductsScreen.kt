@@ -76,7 +76,7 @@ fun PreviewProductsState() {
 @Composable
 fun PreviewProductsScreen() {
     CodeReviewLabTheme {
-        ProductsScreen()
+        ProductsScreen(onBack = {})
     }
 }
 
@@ -99,7 +99,7 @@ private fun filterProducts(
 }
 
 @Composable
-fun ProductsScreen() {
+fun ProductsScreen(onBack: () -> Unit) {
 
     var successState by remember { mutableStateOf(ProductsScreenUiState.Success(mockProducts)) }
     var index by rememberSaveable { mutableIntStateOf(0) }
@@ -117,7 +117,8 @@ fun ProductsScreen() {
     Scaffold(
         topBar = {
             AppTopBar(
-                title = "Search & Filter"
+                title = "Search & Filter",
+                onBack = onBack
             )
         },
         floatingActionButton = {
@@ -141,7 +142,8 @@ fun ProductsScreen() {
             state = uiState,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(innerPadding),
+                .padding(innerPadding)
+                .padding(16.dp),
             onQueryChange = { newQuery ->
                 successState = successState.copy(
                     query = newQuery,
@@ -278,7 +280,7 @@ fun ProductsErrorState(
     ) {
         Text(
             text = error,
-            color = MaterialTheme.colorScheme.onError
+            color = MaterialTheme.colorScheme.error
         )
     }
 }

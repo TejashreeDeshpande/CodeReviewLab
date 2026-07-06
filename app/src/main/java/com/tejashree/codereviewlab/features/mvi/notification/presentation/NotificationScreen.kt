@@ -14,6 +14,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
@@ -54,7 +56,8 @@ import org.koin.androidx.compose.koinViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NotificationScreen(
-    vm: NotificationViewModel = koinViewModel()
+    vm: NotificationViewModel = koinViewModel(),
+    onBack: () -> Unit
 ) {
     val state by vm.state.collectAsStateWithLifecycle()
     val notifications by vm.filteredNotifications.collectAsStateWithLifecycle()
@@ -75,7 +78,8 @@ fun NotificationScreen(
         state = state,
         notifications = notifications,
         scrollBehavior = scrollBehavior,
-        onIntent = { vm.process(it) }
+        onIntent = { vm.process(it) },
+        onBack = onBack
     )
 }
 
@@ -85,7 +89,8 @@ fun NotificationScreenContent(
     state: NotificationState,
     notifications: ImmutableList<SmartNotification>,
     scrollBehavior: TopAppBarScrollBehavior,
-    onIntent: (NotificationIntent) -> Unit
+    onIntent: (NotificationIntent) -> Unit,
+    onBack: () -> Unit
 ) {
     var showCreateSheet by remember { mutableStateOf(false) }
 
@@ -107,6 +112,11 @@ fun NotificationScreenContent(
                             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
                             fontWeight = FontWeight.Medium
                         )
+                    }
+                },
+                navigationIcon = {
+                    IconButton(onClick = onBack) {
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(

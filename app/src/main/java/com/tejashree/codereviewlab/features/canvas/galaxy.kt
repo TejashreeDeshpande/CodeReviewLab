@@ -8,6 +8,8 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -35,11 +37,11 @@ data class InkParticle(
 @Preview
 @Composable
 fun PreviewFluidCanvasScreen() {
-    FluidCanvasScreen()
+    FluidCanvasScreen(onBack = {})
 }
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FluidCanvasScreen() {
+fun FluidCanvasScreen(onBack: () -> Unit) {
     var selectedColor by remember { mutableStateOf(Color(0xFF8E24AA)) }
     var brushSize by remember { mutableFloatStateOf(42f) }
     var flow by remember { mutableFloatStateOf(1.2f) }
@@ -112,6 +114,15 @@ fun FluidCanvasScreen() {
         val context =   LocalContext.current
         TopAppBar(
             title = { Text("FluidCanvas") },
+            navigationIcon = {
+                IconButton(onClick = onBack) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = "Back",
+                        tint = Color.White
+                    )
+                }
+            },
             actions = {
                 TextButton(onClick = {
                     Toast.makeText(context, "Exporting canvas...", Toast.LENGTH_SHORT).show()

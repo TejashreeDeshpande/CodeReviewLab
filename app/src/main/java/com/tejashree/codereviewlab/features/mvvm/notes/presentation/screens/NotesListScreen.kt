@@ -55,11 +55,12 @@ fun PreviewNotesListScreen() {
 fun NotesListScreen(
     viewModel: NotesViewModel = koinViewModel(),
     onNoteClick: (String) -> Unit = {},
-    onAddNoteClick: () -> Unit = {}
+    onAddNoteClick: () -> Unit = {},
+    onBack: () -> Unit
 ) {
     val state by viewModel.notes.collectAsStateWithLifecycle()
     Scaffold(
-        topBar = { AppTopBar(title = "Notes") },
+        topBar = { AppTopBar(title = "Notes", onBack = onBack) },
         floatingActionButton = {
             FloatingActionButton(onClick = onAddNoteClick) {
                 Icon(

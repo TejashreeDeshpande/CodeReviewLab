@@ -14,7 +14,10 @@ import com.tejashree.codereviewlab.features.mvvm.notes.presentation.viewmodel.No
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun NotesAppNavHost(modifier: Modifier = Modifier) {
+fun NotesAppNavHost(
+    modifier: Modifier = Modifier,
+    onBack: () -> Unit
+) {
 
     val backStack = rememberNavBackStack(NoteRoute.NoteList)
 
@@ -37,7 +40,8 @@ fun NotesAppNavHost(modifier: Modifier = Modifier) {
                     },
                     onAddNoteClick = {
                         backStack.add(NoteRoute.NoteDetail(noteId = null))
-                    }
+                    },
+                    onBack = onBack
                 )
             }
 

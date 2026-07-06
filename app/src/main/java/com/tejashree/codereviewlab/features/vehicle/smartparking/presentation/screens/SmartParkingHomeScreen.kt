@@ -1,4 +1,4 @@
-package com.tejashree.codereviewlab.features.smartparking.presentation.screens
+package com.tejashree.codereviewlab.features.vehicle.smartparking.presentation.screens
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
@@ -25,7 +25,6 @@ import androidx.compose.material.icons.automirrored.filled.DirectionsWalk
 import androidx.compose.material.icons.filled.Apartment
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.ChevronRight
-import androidx.compose.material.icons.filled.DirectionsCar
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Navigation
@@ -34,6 +33,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -59,7 +59,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tejashree.codereviewlab.R
-import com.tejashree.codereviewlab.features.smartparking.presentation.viewmodel.ParkingViewModel
+import com.tejashree.codereviewlab.features.vehicle.smartparking.presentation.viewmodel.SmartParkingViewModel
 import org.koin.androidx.compose.koinViewModel
 
 private val BluePrimary = Color(0xFF2563EB)
@@ -74,19 +74,22 @@ private val SoftGray = Color(0xFFF1F5F9)
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewParkingHomeScreen() {
-    ParkingHomeScreenContent(
-        remainingTime = "01:24:18",
-        onExtendClick = {},
+fun PreviewSmartParkingHomeScreen() {
+    SmartParkingHomeScreenContent(
+        remainingTime = "15",
+        expirationTime = "Expires at 5:30 PM",
+        onExtendClick = {}
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ParkingHomeScreen(
-    viewModel: ParkingViewModel = koinViewModel()
+fun SmartParkingHomeScreen(
+    viewModel: SmartParkingViewModel = koinViewModel(),
+    onBack: () -> Unit
 ) {
     val remainingTime by viewModel.remainingTime.collectAsState()
+    val expirationTime by viewModel.expirationTime.collectAsState()
 
     Scaffold(
         containerColor = Background,
@@ -100,18 +103,11 @@ fun ParkingHomeScreen(
                     )
                 },
                 navigationIcon = {
-                    Box(
-                        modifier = Modifier
-                            .padding(start = 16.dp)
-                            .size(48.dp)
-                            .clip(RoundedCornerShape(16.dp))
-                            .background(BlueLight),
-                        contentAlignment = Alignment.Center
-                    ) {
+                    IconButton(onClick = onBack) {
                         Icon(
-                            imageVector = Icons.Default.DirectionsCar,
-                            contentDescription = null,
-                            tint = BluePrimary
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Back",
+                            tint = TextPrimary
                         )
                     }
                 },
@@ -126,8 +122,9 @@ fun ParkingHomeScreen(
             )
         }
     ) { innerPadding ->
-        ParkingHomeScreenContent(
+        SmartParkingHomeScreenContent(
             remainingTime = remainingTime,
+            expirationTime = expirationTime,
             onExtendClick = { viewModel.extendParking() },
             modifier = Modifier
                 .padding(innerPadding)
@@ -137,8 +134,9 @@ fun ParkingHomeScreen(
 }
 
 @Composable
-fun ParkingHomeScreenContent(
+fun SmartParkingHomeScreenContent(
     remainingTime: String,
+    expirationTime: String,
     onExtendClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -152,6 +150,7 @@ fun ParkingHomeScreenContent(
         ParkingStatus()
         ParkingTimerCard(
             remainingTime = remainingTime,
+            expirationTime = expirationTime,
             onExtendClick = onExtendClick
         )
         ParkingLocationCard()
@@ -188,6 +187,7 @@ fun ParkingStatus() {
 @Composable
 fun ParkingTimerCard(
     remainingTime: String,
+    expirationTime: String,
     onExtendClick: () -> Unit
 ) {
     ParkingCard {
@@ -241,7 +241,7 @@ fun ParkingTimerCard(
                     Spacer(modifier = Modifier.height(8.dp))
 
                     Text(
-                        text = "Expires at 5:30 PM",
+                        text = expirationTime,
                         color = TextSecondary
                     )
                 }

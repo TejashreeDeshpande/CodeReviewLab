@@ -59,18 +59,21 @@ fun PreviewSimpleCounterContent() {
 @Composable
 fun PreviewSimpleCounter() {
     CodeReviewLabTheme {
-        SimpleCounter()
+        SimpleCounter(onBack = {})
     }
 }
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SimpleCounter(modifier: Modifier = Modifier) {
+fun SimpleCounter(
+    modifier: Modifier = Modifier,
+    onBack: () -> Unit
+) {
 
     Scaffold(
         topBar = {
-            AppTopBar("Simple Counter")
+            AppTopBar("Simple Counter", onBack = onBack)
         }
     ) { innerPadding ->
         SimpleCounterContent(
