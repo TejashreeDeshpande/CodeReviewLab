@@ -10,8 +10,6 @@ import androidx.compose.material.icons.rounded.History
 import androidx.compose.material.icons.rounded.LocationOn
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material3.*
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,30 +20,20 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.tejashree.codereviewlab.R
 import com.tejashree.codereviewlab.features.vehicle.parkandgo.data.CheckItem
 import com.tejashree.codereviewlab.features.vehicle.parkandgo.presentation.viewmodel.ParkGoUiState
 import com.tejashree.codereviewlab.features.common.AppTopBar
+import com.tejashree.codereviewlab.features.common.AppTopBarTheme
 import com.tejashree.codereviewlab.features.vehicle.parkandgo.presentation.viewmodel.ParkGoViewModel
+import com.tejashree.codereviewlab.ui.theme.*
 import org.koin.androidx.compose.koinViewModel
-
-private enum class ParkGoColors(val color: Color) {
-    Background(Color(0xFF061F24)),
-    Surface(Color(0xFF0B3036)),
-    SurfaceVariant(Color(0xFF123940)),
-    Accent(Color(0xFF59D77A)),
-    AccentDisabled(Color(0xFF2F5F4A)),
-    MutedText(Color(0xFFB8C7C9)),
-    Placeholder(Color(0xFF7C999D)),
-    Outline(Color(0xFF1E4A52)),
-    MapBackground(Color(0xFF0D2529)),
-    MapGrid(Color(0xFF1A3A3F)),
-    MapInfo(Color(0xFF06282D))
-}
 
 @Composable
 fun ParkAndGoScreen(
@@ -81,19 +69,19 @@ fun ParkAndGoScreenContent(
                 showDialog = false
                 newItemTitle = ""
             },
-            containerColor = ParkGoColors.Surface.color,
+            containerColor = ParkGoSurface,
             shape = RoundedCornerShape(28.dp),
             title = {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Icon(
                         imageVector = Icons.Rounded.AddCircleOutline,
-                        contentDescription = "Add custom item",
-                        tint = ParkGoColors.Accent.color,
+                        contentDescription = stringResource(R.string.park_go_add_item_dialog_title),
+                        tint = ParkGoAccent,
                         modifier = Modifier.size(28.dp)
                     )
                     Spacer(Modifier.width(12.dp))
                     Text(
-                        text = "Add Custom Item",
+                        text = stringResource(R.string.park_go_add_item_dialog_title),
                         color = Color.White,
                         style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold)
                     )
@@ -102,23 +90,23 @@ fun ParkAndGoScreenContent(
             text = {
                 Column {
                     Text(
-                        text = "What else do you need to remember?",
-                        color = ParkGoColors.MutedText.color,
+                        text = stringResource(R.string.park_go_add_item_dialog_subtitle),
+                        color = ParkGoMutedText,
                         style = MaterialTheme.typography.bodyMedium
                     )
                     Spacer(Modifier.height(16.dp))
                     OutlinedTextField(
                         value = newItemTitle,
                         onValueChange = { newItemTitle = it },
-                        placeholder = { Text("e.g. Umbrella", color = ParkGoColors.Placeholder.color) },
+                        placeholder = { Text(stringResource(R.string.park_go_add_item_dialog_placeholder), color = ParkGoPlaceholder) },
                         modifier = Modifier.fillMaxWidth(),
                         textStyle = MaterialTheme.typography.bodyLarge.copy(color = Color.White),
                         shape = RoundedCornerShape(16.dp),
                         colors = OutlinedTextFieldDefaults.colors(
-                            focusedBorderColor = ParkGoColors.Accent.color,
-                            unfocusedBorderColor = ParkGoColors.Outline.color,
-                            focusedLabelColor = ParkGoColors.Accent.color,
-                            cursorColor = ParkGoColors.Accent.color
+                            focusedBorderColor = ParkGoAccent,
+                            unfocusedBorderColor = ParkGoOutline,
+                            focusedLabelColor = ParkGoAccent,
+                            cursorColor = ParkGoAccent
                         )
                     )
                 }
@@ -132,10 +120,10 @@ fun ParkAndGoScreenContent(
                             newItemTitle = ""
                         }
                     },
-                    colors = ButtonDefaults.buttonColors(containerColor = ParkGoColors.Accent.color),
+                    colors = ButtonDefaults.buttonColors(containerColor = ParkGoAccent),
                     shape = RoundedCornerShape(12.dp)
                 ) {
-                    Text("Add Item", fontWeight = FontWeight.Bold)
+                    Text(stringResource(R.string.park_go_add_item_dialog_confirm), fontWeight = FontWeight.Bold)
                 }
             },
             dismissButton = {
@@ -143,18 +131,19 @@ fun ParkAndGoScreenContent(
                     showDialog = false
                     newItemTitle = ""
                 }) {
-                    Text("Cancel", color = ParkGoColors.MutedText.color)
+                    Text(stringResource(R.string.park_go_add_item_dialog_cancel), color = ParkGoMutedText)
                 }
             }
         )
     }
 
     Scaffold(
-        containerColor = ParkGoColors.Background.color,
+        containerColor = ParkGoBackground,
         topBar = {
             AppTopBar(
-                title = "Park & Go",
-                onBack = onBack
+                title = stringResource(R.string.park_go_title),
+                onBack = onBack,
+                theme = AppTopBarTheme.DARK
             )
         },
         bottomBar = { ParkBottomBar() }
@@ -168,8 +157,8 @@ fun ParkAndGoScreenContent(
                 .padding(16.dp)
         ) {
             Text(
-                text = "Parked smart. Leave worry-free.",
-                color = ParkGoColors.MutedText.color,
+                text = stringResource(R.string.park_go_subtitle),
+                color = ParkGoMutedText,
                 style = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             )
@@ -196,7 +185,7 @@ fun ParkMapCard(time: String) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(28.dp),
-        colors = CardDefaults.cardColors(ParkGoColors.Surface.color)
+        colors = CardDefaults.cardColors(ParkGoSurface)
     ) {
         Column {
             Box(
@@ -208,7 +197,7 @@ fun ParkMapCard(time: String) {
                 RealisticMap(modifier = Modifier.fillMaxSize())
 
                 Text(
-                    text = "Level 2 – Row B\nSpot 27\n$time",
+                    text = stringResource(R.string.park_go_level_format, "2", "B", "27", time),
                     color = Color.White,
                     style = MaterialTheme.typography.titleMedium.copy(
                         fontWeight = FontWeight.Bold,
@@ -216,7 +205,7 @@ fun ParkMapCard(time: String) {
                     ),
                     modifier = Modifier
                         .padding(16.dp)
-                        .background(ParkGoColors.MapInfo.color.copy(alpha = 0.85f), RoundedCornerShape(18.dp))
+                        .background(ParkGoMapInfo.copy(alpha = 0.85f), RoundedCornerShape(18.dp))
                         .padding(16.dp)
                 )
             }
@@ -224,7 +213,7 @@ fun ParkMapCard(time: String) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(ParkGoColors.MapInfo.color)
+                    .background(ParkGoMapInfo)
                     .padding(18.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -242,19 +231,19 @@ fun ParkMapCard(time: String) {
                     )
                     Text(
                         text = "865 Mission St, San Francisco",
-                        color = ParkGoColors.MutedText.color,
+                        color = ParkGoMutedText,
                         style = MaterialTheme.typography.bodySmall
                     )
                     Spacer(Modifier.height(4.dp))
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Text(
-                            text = "5 min walk",
-                            color = ParkGoColors.Accent.color,
+                            text = stringResource(R.string.park_go_walk_format, "5"),
+                            color = ParkGoAccent,
                             style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold)
                         )
                         Text(
-                            text = " • 0.3 miles away",
-                            color = ParkGoColors.MutedText.color,
+                            text = stringResource(R.string.park_go_dist_format, "0.3"),
+                            color = ParkGoMutedText,
                             style = MaterialTheme.typography.bodySmall
                         )
                     }
@@ -262,10 +251,10 @@ fun ParkMapCard(time: String) {
 
                 OutlinedButton(
                     onClick = {},
-                    border = BorderStroke(1.dp, ParkGoColors.Accent.color),
+                    border = BorderStroke(1.dp, ParkGoAccent),
                     shape = RoundedCornerShape(16.dp)
                 ) {
-                    Text("Directions", color = ParkGoColors.Accent.color)
+                    Text(stringResource(R.string.park_go_directions), color = ParkGoAccent)
                 }
             }
         }
@@ -274,7 +263,7 @@ fun ParkMapCard(time: String) {
 
 @Composable
 fun RealisticMap(modifier: Modifier = Modifier) {
-    Canvas(modifier = modifier.background(ParkGoColors.MapBackground.color)) {
+    Canvas(modifier = modifier.background(ParkGoMapBackground)) {
         val width = size.width
         val height = size.height
 
@@ -286,7 +275,7 @@ fun RealisticMap(modifier: Modifier = Modifier) {
         for (i in 0..10) {
             for (j in 0..5) {
                 drawRect(
-                    color = ParkGoColors.MapGrid.color,
+                    color = ParkGoMapGrid,
                     topLeft = Offset(i * (spotWidth + spacing) + 40f, j * (spotHeight + 40f) + 20f),
                     size = Size(spotWidth, spotHeight),
                     style = Stroke(width = 2f)
@@ -304,7 +293,7 @@ fun RealisticMap(modifier: Modifier = Modifier) {
 
         drawPath(
             path = roadPath,
-            color = ParkGoColors.Outline.color,
+            color = ParkGoOutline,
             style = Stroke(width = 40f)
         )
 
@@ -314,7 +303,7 @@ fun RealisticMap(modifier: Modifier = Modifier) {
         // Glow effect
         drawCircle(
             brush = Brush.radialGradient(
-                colors = listOf(ParkGoColors.Accent.color.copy(alpha = 0.4f), Color.Transparent),
+                colors = listOf(ParkGoAccent.copy(alpha = 0.4f), Color.Transparent),
                 center = carPos,
                 radius = 80f
             ),
@@ -323,7 +312,7 @@ fun RealisticMap(modifier: Modifier = Modifier) {
         )
 
         drawCircle(
-            color = ParkGoColors.Accent.color,
+            color = ParkGoAccent,
             radius = 12f,
             center = carPos
         )
@@ -347,7 +336,7 @@ fun ChecklistCard(
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(28.dp),
-        colors = CardDefaults.cardColors(ParkGoColors.Surface.color)
+        colors = CardDefaults.cardColors(ParkGoSurface)
     ) {
         Column(modifier = Modifier.padding(20.dp)) {
             Row(
@@ -357,7 +346,7 @@ fun ChecklistCard(
             ) {
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
-                        text = "Before you leave",
+                        text = stringResource(R.string.park_go_checklist_title),
                         color = Color.White,
                         style = MaterialTheme.typography.headlineSmall.copy(
                             fontWeight = FontWeight.Bold
@@ -365,18 +354,18 @@ fun ChecklistCard(
                     )
 
                     Text(
-                        text = "A quick check to avoid forgetting important items.",
-                        color = ParkGoColors.MutedText.color,
+                        text = stringResource(R.string.park_go_checklist_subtitle),
+                        color = ParkGoMutedText,
                         style = MaterialTheme.typography.bodyMedium
                     )
                 }
 
                 TextButton(
                     onClick = onToggleAll,
-                    colors = ButtonDefaults.textButtonColors(contentColor = ParkGoColors.Accent.color)
+                    colors = ButtonDefaults.textButtonColors(contentColor = ParkGoAccent)
                 ) {
                     Text(
-                        text = if (allChecked) "Deselect All" else "Select All",
+                        text = if (allChecked) stringResource(R.string.park_go_deselect_all) else stringResource(R.string.park_go_select_all),
                         fontWeight = FontWeight.Bold
                     )
                 }
@@ -397,9 +386,9 @@ fun ChecklistCard(
                 onClick = onAddItem,
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(16.dp),
-                border = BorderStroke(1.dp, ParkGoColors.Accent.color)
+                border = BorderStroke(1.dp, ParkGoAccent)
             ) {
-                Text("+ Add custom item", color = ParkGoColors.Accent.color)
+                Text(stringResource(R.string.park_go_add_custom), color = ParkGoAccent)
             }
 
             Spacer(Modifier.height(16.dp))
@@ -411,11 +400,11 @@ fun ChecklistCard(
                     .height(58.dp),
                 shape = RoundedCornerShape(18.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = if (allChecked) ParkGoColors.Accent.color else ParkGoColors.AccentDisabled.color
+                    containerColor = if (allChecked) ParkGoAccent else ParkGoAccentDisabled
                 )
             ) {
                 Text(
-                    text = "✓ All checked, I’m ready to go",
+                    text = stringResource(R.string.park_go_ready),
                     color = Color.White,
                     style = MaterialTheme.typography.titleMedium.copy(
                         fontWeight = FontWeight.Bold
@@ -435,7 +424,7 @@ fun ChecklistRow(
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(18.dp))
-            .background(ParkGoColors.SurfaceVariant.color)
+            .background(ParkGoSurfaceVariant)
             .clickable { onClick() }
             .padding(14.dp),
         verticalAlignment = Alignment.CenterVertically
@@ -445,7 +434,7 @@ fun ChecklistRow(
             fontSize = 24.sp,
             modifier = Modifier
                 .size(44.dp)
-                .background(ParkGoColors.Outline.color, CircleShape)
+                .background(ParkGoOutline, CircleShape)
                 .padding(8.dp)
         )
 
@@ -464,8 +453,8 @@ fun ChecklistRow(
             checked = item.checked,
             onCheckedChange = { onClick() },
             colors = CheckboxDefaults.colors(
-                checkedColor = ParkGoColors.Accent.color,
-                uncheckedColor = ParkGoColors.Placeholder.color,
+                checkedColor = ParkGoAccent,
+                uncheckedColor = ParkGoPlaceholder,
                 checkmarkColor = Color.White
             )
         )
@@ -475,13 +464,13 @@ fun ChecklistRow(
 @Composable
 fun ParkBottomBar() {
     NavigationBar(
-        containerColor = ParkGoColors.Background.color,
+        containerColor = ParkGoBackground,
         tonalElevation = 8.dp
     ) {
         val items = listOf(
-            Triple("Park", Icons.Rounded.LocationOn, true),
-            Triple("History", Icons.Rounded.History, false),
-            Triple("Settings", Icons.Rounded.Settings, false)
+            Triple(stringResource(R.string.park_go_nav_park), Icons.Rounded.LocationOn, true),
+            Triple(stringResource(R.string.park_go_nav_history), Icons.Rounded.History, false),
+            Triple(stringResource(R.string.park_go_nav_settings), Icons.Rounded.Settings, false)
         )
 
         items.forEach { (label, icon, isSelected) ->
@@ -504,11 +493,11 @@ fun ParkBottomBar() {
                     )
                 },
                 colors = NavigationBarItemDefaults.colors(
-                    selectedIconColor = ParkGoColors.Accent.color,
-                    selectedTextColor = ParkGoColors.Accent.color,
-                    unselectedIconColor = ParkGoColors.Placeholder.color,
-                    unselectedTextColor = ParkGoColors.Placeholder.color,
-                    indicatorColor = ParkGoColors.Outline.color.copy(alpha = 0.5f)
+                    selectedIconColor = ParkGoAccent,
+                    selectedTextColor = ParkGoAccent,
+                    unselectedIconColor = ParkGoPlaceholder,
+                    unselectedTextColor = ParkGoPlaceholder,
+                    indicatorColor = ParkGoOutline.copy(alpha = 0.5f)
                 )
             )
         }

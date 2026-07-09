@@ -48,3 +48,24 @@ val Border = Color(0xFFCBD5E1)
 
 val Warning = Color(0xFFF59E0B)
 val Error = Color(0xFFEF4444)
+
+// Battery Feature Colors
+val BatteryBackground = Color(0xFF0A0F16)
+val BatteryAccent = Color(0xFF40E67C)
+val BatterySurface = Color(0xFF161B22)
+val BatteryTextSecondary = Color(0xFF8B949E)
+val BatteryTextTertiary = Color(0xFFB8C7E0)
+val BatteryHighlight = Color(0xFF58A6FF)
+
+// Park & Go Feature Colors
+val ParkGoBackground = Color(0xFF061F24)
+val ParkGoSurface = Color(0xFF0B3036)
+val ParkGoSurfaceVariant = Color(0xFF123940)
+val ParkGoAccent = Color(0xFF59D77A)
+val ParkGoAccentDisabled = Color(0xFF2F5F4A)
+val ParkGoMutedText = Color(0xFFB8C7C9)
+val ParkGoPlaceholder = Color(0xFF7C999D)
+val ParkGoOutline = Color(0xFF1E4A52)
+val ParkGoMapBackground = Color(0xFF0D2529)
+val ParkGoMapGrid = Color(0xFF1A3A3F)
+val ParkGoMapInfo = Color(0xFF06282D)

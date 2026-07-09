@@ -1,3 +1,41 @@
 <resources>
     <string name="app_name">CodeReviewLab</string>
+
+    <!-- Battery Feature -->
+    <string name="battery_title">Battery</string>
+    <string name="battery_live">Live</string>
+    <string name="battery_state_of_charge">State of Charge</string>
+    <string name="battery_estimated_range">Estimated Range</string>
+    <string name="battery_charging">Charging</string>
+    <string name="battery_time_to_full">Time to Full ⏳</string>
+    <string name="battery_refresh">Refresh</string>
+    <string name="battery_overview">Overview</string>
+    <string name="battery_charge">Charge</string>
+    <string name="battery_climate">Climate</string>
+    <string name="battery_more">More</string>
+    <string name="battery_unit_percent">%</string>
+    <string name="battery_unit_miles">mi</string>
+    <string name="battery_charging_format">AC · %1$s kW</string>
+
+    <!-- Park & Go Feature -->
+    <string name="park_go_title">Park &amp; Go</string>
+    <string name="park_go_subtitle">Parked smart. Leave worry-free.</string>
+    <string name="park_go_level_format">Level %1$s – Row %2$s\nSpot %3$s\n%4$s</string>
+    <string name="park_go_walk_format">%1$s min walk</string>
+    <string name="park_go_dist_format"> • %1$s miles away</string>
+    <string name="park_go_directions">Directions</string>
+    <string name="park_go_checklist_title">Before you leave</string>
+    <string name="park_go_checklist_subtitle">A quick check to avoid forgetting important items.</string>
+    <string name="park_go_select_all">Select All</string>
+    <string name="park_go_deselect_all">Deselect All</string>
+    <string name="park_go_add_custom">+ Add custom item</string>
+    <string name="park_go_ready">✓ All checked, I’m ready to go</string>
+    <string name="park_go_add_item_dialog_title">Add Custom Item</string>
+    <string name="park_go_add_item_dialog_subtitle">What else do you need to remember?</string>
+    <string name="park_go_add_item_dialog_placeholder">e.g. Umbrella</string>
+    <string name="park_go_add_item_dialog_confirm">Add Item</string>
+    <string name="park_go_add_item_dialog_cancel">Cancel</string>
+    <string name="park_go_nav_park">Park</string>
+    <string name="park_go_nav_history">History</string>
+    <string name="park_go_nav_settings">Settings</string>
 </resources>

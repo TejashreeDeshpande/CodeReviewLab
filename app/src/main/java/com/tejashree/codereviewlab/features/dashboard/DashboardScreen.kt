@@ -21,6 +21,7 @@ enum class Feature(val title: String, val description: String) {
     Leaderboard("🏆 Leaderboard", "List Performance & Animations"),
     SmartParkingReminder("🚗 Parking Reminder", "Custom Canvas Drawing & State Management"),
     ParkAndGo("🚗 Park & Go", "Custom Canvas Drawing & State Management"),
+    BatteryStatus("🚗 Battery Status", "Custom Canvas Drawing & State Management"),
     Notes("📝 Notes App", "MVVM, Clean Architecture & Navigation 3"),
     Notification("🔔 Smart Notification", "MVI (Intent-State-Effect) Pattern"),
     Galaxy("🎨 Galaxy Canvas", "High-performance Fluid Graphics"),

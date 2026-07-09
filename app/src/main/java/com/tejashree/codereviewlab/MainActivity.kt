@@ -19,6 +19,8 @@ import com.tejashree.codereviewlab.features.mvi.notification.presentation.Notifi
 import com.tejashree.codereviewlab.features.mvi.notification.presentation.viewmodel.NotificationViewModel
 import com.tejashree.codereviewlab.features.mvvm.notes.navigation.NotesAppNavHost
 import com.tejashree.codereviewlab.features.searchfilter.ProductsScreen
+import com.tejashree.codereviewlab.features.vehicle.batterystatus.presentation.screens.BatteryStatusScreen
+import com.tejashree.codereviewlab.features.vehicle.batterystatus.presentation.viewmodel.BatteryViewModel
 import com.tejashree.codereviewlab.features.vehicle.parkandgo.presentation.screens.ParkAndGoScreen
 import com.tejashree.codereviewlab.features.vehicle.parkandgo.presentation.viewmodel.ParkGoViewModel
 import com.tejashree.codereviewlab.features.vehicle.smartparking.presentation.screens.SmartParkingHomeScreen
@@ -56,6 +58,10 @@ fun AppNavigation() {
         composable(Feature.ParkAndGo.name) {
             val viewModel = koinViewModel<ParkGoViewModel>()
             ParkAndGoScreen(viewModel = viewModel, onBack = { navController.popBackStack() })
+        }
+        composable(Feature.BatteryStatus.name) {
+            val viewModel = koinViewModel<BatteryViewModel>()
+            BatteryStatusScreen(viewModel = viewModel, onBack = { navController.popBackStack() })
         }
 
         composable(Feature.Notes.name) {

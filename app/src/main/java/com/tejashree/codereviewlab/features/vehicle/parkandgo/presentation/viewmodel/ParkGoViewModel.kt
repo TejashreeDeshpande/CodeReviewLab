@@ -9,6 +9,10 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import java.util.Calendar
 
+/**
+ * ViewModel for the Park & Go feature.
+ * Manages the state of the parking location and the pre-departure checklist.
+ */
 class ParkGoViewModel : ViewModel() {
 
     private val _uiState = MutableStateFlow(
@@ -16,6 +20,10 @@ class ParkGoViewModel : ViewModel() {
     )
     val uiState: StateFlow<ParkGoUiState> = _uiState.asStateFlow()
 
+    /**
+     * Toggles the checked status of a checklist item.
+     * @param id The unique identifier of the item to toggle.
+     */
     fun toggleItem(id: Int) {
         _uiState.update { state ->
             state.copy(
@@ -30,6 +38,9 @@ class ParkGoViewModel : ViewModel() {
         }
     }
 
+    /**
+     * Toggles all checklist items to either all checked or all unchecked.
+     */
     fun toggleAll() {
         _uiState.update { state ->
             val targetChecked = !state.allChecked
@@ -39,6 +50,10 @@ class ParkGoViewModel : ViewModel() {
         }
     }
 
+    /**
+     * Adds a new custom item to the checklist.
+     * @param title The title of the new item.
+     */
     fun addItem(title: String) {
         if (title.isBlank()) return
 

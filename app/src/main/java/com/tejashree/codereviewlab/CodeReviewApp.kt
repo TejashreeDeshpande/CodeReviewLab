@@ -4,6 +4,7 @@ import android.app.Application
 import com.tejashree.codereviewlab.features.leaderboard.di.leaderboardModule
 import com.tejashree.codereviewlab.features.mvi.notification.di.notificationAppModule
 import com.tejashree.codereviewlab.features.mvvm.notes.di.notesAppModule
+import com.tejashree.codereviewlab.features.vehicle.batterystatus.di.batteryStatusModule
 import com.tejashree.codereviewlab.features.vehicle.parkandgo.di.parkGoAppModule
 import com.tejashree.codereviewlab.features.vehicle.smartparking.di.smartParkingModule
 import org.koin.android.ext.koin.androidContext
@@ -23,6 +24,7 @@ class CodeReviewApp : Application() {
             modules(smartParkingModule)
             modules(leaderboardModule)
             modules(parkGoAppModule)
+            modules(batteryStatusModule)
         }
     }
 }
