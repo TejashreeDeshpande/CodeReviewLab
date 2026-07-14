@@ -83,7 +83,7 @@ fun EmployeeDirectory(
             TopAppBar(
                 title = {
                     Text(
-                        text = "Smart Parking Reminder",
+                        text = "Employee Directory",
                         color = TextPrimary,
                         fontWeight = FontWeight.Bold
                     )
