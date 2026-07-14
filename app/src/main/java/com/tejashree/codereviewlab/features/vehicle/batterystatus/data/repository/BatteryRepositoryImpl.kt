@@ -1,29 +1,27 @@
 package com.tejashree.codereviewlab.features.vehicle.batterystatus.data.repository
 
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
 import com.tejashree.codereviewlab.features.vehicle.batterystatus.data.model.BatteryTelemetry
 import com.tejashree.codereviewlab.features.vehicle.batterystatus.data.model.ChargingStatus
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
-import java.util.concurrent.atomic.AtomicInteger
 import kotlin.time.Duration.Companion.milliseconds
 
-
 /**
- * Implementation of [BatteryRepository] that simulates vehicle telemetry.
+ * Implementation of [BatteryRepository] that simulates vehicle telemetry using DataStore.
+ * This implementation is main-safe and persists state across sessions.
  *
- * @param ioDispatcher The [CoroutineDispatcher] to use for polling and emissions.
+ * @param dataStore The [DataStore] used to persist battery level.
  */
 class BatteryRepositoryImpl(
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
+    private val dataStore: DataStore<Preferences>
 ) : BatteryRepository {
-
-    // Thread-safe internal state tracking the current battery percentage
-    private val batteryLevel = AtomicInteger(INITIAL_BATTERY_LEVEL)
 
     override fun observeBatteryStatus(): Flow<BatteryTelemetry> = flow {
         while (true) {
@@ -33,21 +31,20 @@ class BatteryRepositoryImpl(
         }
     }
     .distinctUntilChanged()
-    .flowOn(ioDispatcher)
 
     override suspend fun refreshNow(): BatteryTelemetry {
-        // In a real-world scenario, this would involve a network or hardware request.
-        // We simulate this by returning the latest state immediately with a 'fresh' flag.
-        return createTelemetry(batteryLevel.get(), isFresh = true)
+        val current = dataStore.data.first()[BATTERY_PERCENT] ?: INITIAL_BATTERY_LEVEL
+        return createTelemetry(current, isFresh = true)
     }
 
-    private fun updateAndGetBatteryLevel(): Int {
-        return batteryLevel.updateAndGet { level ->
-            (level + 1).coerceAtMost(MAX_BATTERY_LEVEL)
-        }
+    private suspend fun updateAndGetBatteryLevel(): Int {
+        return dataStore.edit { prefs ->
+            val level = prefs[BATTERY_PERCENT] ?: INITIAL_BATTERY_LEVEL
+            prefs[BATTERY_PERCENT] = (level + 1).coerceAtMost(MAX_BATTERY_LEVEL)
+        }[BATTERY_PERCENT] ?: INITIAL_BATTERY_LEVEL
     }
 
-    private fun createTelemetry(level: Int, isFresh: Boolean = true): BatteryTelemetry {
+    private fun createTelemetry(level: Int, isFresh: Boolean = false): BatteryTelemetry {
         return BatteryTelemetry(
             batteryPercent = level,
             estimatedRangeMiles = level * MILES_PER_PERCENT,
@@ -61,7 +58,6 @@ class BatteryRepositoryImpl(
 
     private fun calculateTimeToFull(level: Int): String {
         if (level >= MAX_BATTERY_LEVEL) return "Full"
-        // Mocked calculation: 5 minutes per percentage point
         val totalMinutes = (MAX_BATTERY_LEVEL - level) * 5
         val hours = totalMinutes / 60
         val minutes = totalMinutes % 60
@@ -69,6 +65,7 @@ class BatteryRepositoryImpl(
     }
 
     companion object {
+        private val BATTERY_PERCENT = intPreferencesKey("battery_percent")
         private const val INITIAL_BATTERY_LEVEL = 72
         private const val MAX_BATTERY_LEVEL = 90
         private const val MILES_PER_PERCENT = 3
