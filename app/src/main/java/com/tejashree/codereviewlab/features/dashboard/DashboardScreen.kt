@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.tejashree.codereviewlab.features.common.AppTopBar
 
 enum class Feature(val title: String, val description: String) {
+    EmployeeDirectory("🎨 Employee Directory", "LazyColumn"),
     Counter("🔢 Simple Counter", "Basic State Management (rememberSavable)"),
     SearchFilter("🔍 Search & Filter", "Real-time filtering & Material 3 UI"),
     Leaderboard("🏆 Leaderboard", "List Performance & Animations"),
@@ -25,7 +26,7 @@ enum class Feature(val title: String, val description: String) {
     Notes("📝 Notes App", "MVVM, Clean Architecture & Navigation 3"),
     Notification("🔔 Smart Notification", "MVI (Intent-State-Effect) Pattern"),
     Galaxy("🎨 Galaxy Canvas", "High-performance Fluid Graphics"),
-    Kaleidoscope("🎨 Kaleidoscope", "Geometric Pathing & Animations")
+    Kaleidoscope("🎨 Kaleidoscope", "Geometric Pathing & Animations"),
 }
 
 @Composable

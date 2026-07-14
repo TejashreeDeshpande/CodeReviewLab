@@ -13,6 +13,8 @@ import com.tejashree.codereviewlab.features.canvas.ProfessionalKaleidoscopeCanva
 import com.tejashree.codereviewlab.features.counter.SimpleCounter
 import com.tejashree.codereviewlab.features.dashboard.DashboardScreen
 import com.tejashree.codereviewlab.features.dashboard.Feature
+import com.tejashree.codereviewlab.features.employeedirectory.presentation.screens.EmployeeDirectory
+import com.tejashree.codereviewlab.features.employeedirectory.presentation.viewmodel.EmployeesViewModel
 import com.tejashree.codereviewlab.features.leaderboard.presentation.LeaderboardScreen
 import com.tejashree.codereviewlab.features.leaderboard.presentation.LeaderboardViewModel
 import com.tejashree.codereviewlab.features.mvi.notification.presentation.NotificationScreen
@@ -50,6 +52,18 @@ fun AppNavigation() {
                 navController.navigate(feature.name)
             }
         }
+
+        composable(Feature.EmployeeDirectory.name) {
+            val viewModel: EmployeesViewModel = koinViewModel()
+            EmployeeDirectory(
+                viewModel = viewModel,
+                onBack = { navController.popBackStack() })
+        }
+
+        composable(Feature.Kaleidoscope.name) {
+            ProfessionalKaleidoscopeCanvas(onBack = { navController.popBackStack() })
+        }
+
         composable(Feature.SmartParkingReminder.name) {
             val viewModel = koinViewModel<SmartParkingViewModel>()
             SmartParkingHomeScreen(viewModel = viewModel, onBack = { navController.popBackStack() })
