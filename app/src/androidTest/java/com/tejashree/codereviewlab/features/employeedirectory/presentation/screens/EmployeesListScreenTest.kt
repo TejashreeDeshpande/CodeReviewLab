@@ -50,7 +50,7 @@ class EmployeesListScreenTest {
     }
 
     @Test
-    fun errorState_showsCorrectErrorMessage() {
+    fun errorState_showsNoInternetMessage() {
         composeTestRule.setContent {
             CodeReviewLabTheme {
                 EmployeeDirectoryContent(
@@ -64,6 +64,23 @@ class EmployeesListScreenTest {
         }
 
         composeTestRule.onNodeWithText("No internet connection. Please check your network.").assertIsDisplayed()
+    }
+
+    @Test
+    fun errorState_showsServerErrorMessage() {
+        composeTestRule.setContent {
+            CodeReviewLabTheme {
+                EmployeeDirectoryContent(
+                    state = EmployeeUiState.ErrorState(EmployeeErrorType.SERVER_ERROR),
+                    onBack = {},
+                    onErrorClick = {},
+                    onEmptyClick = {},
+                    onRefreshClick = {}
+                )
+            }
+        }
+
+        composeTestRule.onNodeWithText("There was an error on the server. Please try again later.").assertIsDisplayed()
     }
 
     @Test

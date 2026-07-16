@@ -1,5 +1,6 @@
 package com.tejashree.codereviewlab.features.employeedirectory.presentation.screens
 
+import com.tejashree.codereviewlab.R
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -27,10 +28,13 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
@@ -79,12 +83,19 @@ fun EmployeeDirectory(
 
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
+    val currentOnBack by rememberUpdatedState(onBack)
+    val onBackStable = remember { { currentOnBack() } }
+
+    val onErrorClick = remember(viewModel) { { viewModel.loadEmployees(EmployeeResult.ERROR) } }
+    val onEmptyClick = remember(viewModel) { { viewModel.loadEmployees(EmployeeResult.EMPTY) } }
+    val onRefreshClick = remember(viewModel) { { viewModel.loadEmployees(EmployeeResult.SUCCESS) } }
+
     EmployeeDirectoryContent(
         state = state,
-        onBack = onBack,
-        onErrorClick = { viewModel.loadEmployees(EmployeeResult.ERROR) },
-        onEmptyClick = { viewModel.loadEmployees(EmployeeResult.EMPTY) },
-        onRefreshClick = { viewModel.loadEmployees(EmployeeResult.SUCCESS) }
+        onBack = onBackStable,
+        onErrorClick = onErrorClick,
+        onEmptyClick = onEmptyClick,
+        onRefreshClick = onRefreshClick
     )
 }
 
@@ -150,7 +161,7 @@ fun EmployeeDirectoryContent(
             }
         }) { innerPadding ->
 
-        when (val currentState = state) {
+        when (state) {
             is EmployeeUiState.Loading -> {
                 Box(
                     modifier = Modifier
@@ -171,13 +182,13 @@ fun EmployeeDirectoryContent(
             }
 
             is EmployeeUiState.ErrorState -> {
-                val errorMessage = when (currentState.errorType) {
-                    EmployeeErrorType.MALFORMED_DATA -> "The data from the server was invalid."
-                    EmployeeErrorType.SERVER_ERROR -> "There was an error on the server. Please try again later."
-                    EmployeeErrorType.NO_INTERNET -> "No internet connection. Please check your network."
-                    EmployeeErrorType.TIMEOUT -> "The request timed out. Please try again."
-                    EmployeeErrorType.FORBIDDEN -> "You do not have permission to access this data."
-                    EmployeeErrorType.UNKNOWN -> "An unknown error occurred."
+                val errorMessage = when (state.errorType) {
+                    EmployeeErrorType.MALFORMED_DATA -> stringResource(R.string.malformed_data)
+                    EmployeeErrorType.SERVER_ERROR -> stringResource(R.string.server_error)
+                    EmployeeErrorType.NO_INTERNET -> stringResource(R.string.no_internet)
+                    EmployeeErrorType.TIMEOUT -> stringResource(R.string.timeout)
+                    EmployeeErrorType.FORBIDDEN -> stringResource(R.string.forbidden)
+                    EmployeeErrorType.UNKNOWN -> stringResource(R.string.unknown)
                 }
                 EmployeeDirectoryError(
                     message = errorMessage,
@@ -188,7 +199,7 @@ fun EmployeeDirectoryContent(
             is EmployeeUiState.Success -> {
                 EmployeesDirectoryListView(
                     modifier = Modifier.padding(innerPadding),
-                    employees = currentState.data
+                    employees = state.data
                 )
             }
         }

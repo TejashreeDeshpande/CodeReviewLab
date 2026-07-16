@@ -4,13 +4,13 @@ import androidx.compose.runtime.Immutable
 import com.tejashree.codereviewlab.features.employeedirectory.domain.model.Employee
 import kotlinx.collections.immutable.ImmutableList
 
+@Immutable
 sealed interface EmployeeUiState {
     data object Loading : EmployeeUiState
     data object EmptyState : EmployeeUiState
 
     data class ErrorState(val errorType: EmployeeErrorType) : EmployeeUiState
 
-    @Immutable
     data class Success(val data: ImmutableList<Employee>) : EmployeeUiState
 }
 
