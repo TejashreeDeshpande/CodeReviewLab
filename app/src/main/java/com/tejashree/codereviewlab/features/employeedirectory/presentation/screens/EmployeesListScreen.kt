@@ -74,7 +74,7 @@ fun PreviewEmployeeDirectoryListScreen() {
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+//@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EmployeeDirectory(
     viewModel: EmployeesViewModel = koinViewModel(),
@@ -163,18 +163,7 @@ fun EmployeeDirectoryContent(
 
         when (state) {
             is EmployeeUiState.Loading -> {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(innerPadding),
-                    contentAlignment = Alignment.Center
-                ) {
-                    CircularProgressIndicator(
-                        modifier = Modifier.semantics {
-                            contentDescription = "Loading employees"
-                        }
-                    )
-                }
+                EmployeeDirectoryLoading(modifier = Modifier.padding(innerPadding))
             }
 
             is EmployeeUiState.EmptyState -> {
@@ -203,6 +192,21 @@ fun EmployeeDirectoryContent(
                 )
             }
         }
+    }
+}
+
+@Composable
+fun EmployeeDirectoryLoading(modifier: Modifier = Modifier) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        CircularProgressIndicator(
+            modifier = Modifier.semantics {
+                contentDescription = "Loading employees"
+            }
+        )
     }
 }
 
