@@ -31,6 +31,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -77,7 +79,27 @@ fun EmployeeDirectory(
 
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
+    EmployeeDirectoryContent(
+        state = state,
+        onBack = onBack,
+        onErrorClick = { viewModel.loadEmployees(EmployeeResult.ERROR) },
+        onEmptyClick = { viewModel.loadEmployees(EmployeeResult.EMPTY) },
+        onRefreshClick = { viewModel.loadEmployees(EmployeeResult.SUCCESS) }
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun EmployeeDirectoryContent(
+    state: EmployeeUiState,
+    onBack: () -> Unit,
+    onErrorClick: () -> Unit,
+    onEmptyClick: () -> Unit,
+    onRefreshClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     Scaffold(
+        modifier = modifier,
         containerColor = Background,
         topBar = {
             TopAppBar(
@@ -107,25 +129,19 @@ fun EmployeeDirectory(
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
                 modifier = Modifier.padding(16.dp)
             ) {
-                FloatingActionButton(onClick = {
-                    viewModel.loadEmployees(EmployeeResult.ERROR)
-                }) {
+                FloatingActionButton(onClick = onErrorClick) {
                     Icon(
                         imageVector = Icons.Default.Warning,
                         contentDescription = "Error"
                     )
                 }
-                FloatingActionButton(onClick = {
-                    viewModel.loadEmployees(EmployeeResult.EMPTY)
-                }) {
+                FloatingActionButton(onClick = onEmptyClick) {
                     Icon(
                         imageVector = Icons.Default.Inbox,
                         contentDescription = "Empty List"
                     )
                 }
-                FloatingActionButton(onClick = {
-                    viewModel.loadEmployees(EmployeeResult.SUCCESS)
-                }) {
+                FloatingActionButton(onClick = onRefreshClick) {
                     Icon(
                         imageVector = Icons.Default.Refresh,
                         contentDescription = "Refresh"
@@ -136,11 +152,22 @@ fun EmployeeDirectory(
 
         when (val currentState = state) {
             is EmployeeUiState.Loading -> {
-                CircularProgressIndicator()
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(innerPadding),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.semantics {
+                            contentDescription = "Loading employees"
+                        }
+                    )
+                }
             }
 
             is EmployeeUiState.EmptyState -> {
-                EmployeeDirectoryEmpty()
+                EmployeeDirectoryEmpty(modifier = Modifier.padding(innerPadding))
             }
 
             is EmployeeUiState.ErrorState -> {
@@ -152,7 +179,10 @@ fun EmployeeDirectory(
                     EmployeeErrorType.FORBIDDEN -> "You do not have permission to access this data."
                     EmployeeErrorType.UNKNOWN -> "An unknown error occurred."
                 }
-                EmployeeDirectoryError(message = errorMessage)
+                EmployeeDirectoryError(
+                    message = errorMessage,
+                    modifier = Modifier.padding(innerPadding)
+                )
             }
 
             is EmployeeUiState.Success -> {
