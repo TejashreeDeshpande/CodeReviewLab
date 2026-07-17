@@ -37,40 +37,42 @@ class GrindJuly16 {
     }
 
     // Number of Islands
-    fun numIslands(grid:Array<CharArray>):Int{
+    fun numIslands(grid: Array<CharArray>): Int {
 
-        var count=0
+        var count = 0
 
-        fun dfs(r:Int,c:Int){
+        fun dfs(r: Int, c: Int) {
 
-            if(r !in grid.indices ||
+            if (r !in grid.indices ||
                 c !in grid[0].indices ||
-                grid[r][c]=='0')
+                grid[r][c] == '0'
+            )
                 return
 
-            grid[r][c]='0'
+            grid[r][c] = '0'
 
-            dfs(r+1,c)
-            dfs(r-1,c)
-            dfs(r,c+1)
-            dfs(r,c-1)
+            dfs(r + 1, c)
+            dfs(r - 1, c)
+            dfs(r, c + 1)
+            dfs(r, c - 1)
         }
 
-        for(r in grid.indices){
+        for (r in grid.indices) {
 
-            for(c in grid[0].indices){
+            for (c in grid[0].indices) {
 
-                if(grid[r][c]=='1'){
+                if (grid[r][c] == '1') {
 
                     count++
 
-                    dfs(r,c)
+                    dfs(r, c)
                 }
             }
         }
 
         return count
     }
+
     //----------------------------------------------------------------------//
     // Stack : Last In, First Out
     class SimpleStack<T> {
@@ -124,6 +126,9 @@ class GrindJuly16 {
         }
         return stack.isEmpty()
     }
+
+    //----------------------------------------------------------------------//
+    // Sliding Window
     // Best Time to Buy and Sell Stock
     fun maxProfit(prices: IntArray): Int {
         var minPrice = Int.MAX_VALUE
@@ -136,6 +141,70 @@ class GrindJuly16 {
 
         return profit
     }
+
+    // maxSum
+    fun maxSum(nums: IntArray, k: Int): Int {
+        var windowSum = 0
+
+        for (i in 0 until k)
+            windowSum += nums[i]
+
+        var max = windowSum
+
+        for (i in k until nums.size) {
+            windowSum += nums[i]
+            windowSum -= nums[i - k]
+            max = maxOf(max, windowSum)
+        }
+
+        return max
+    }
+
+    // lengthOfLongestSubstring
+    fun lengthOfLongestSubstring(s: String): Int {
+        val map = HashMap<Char, Int>()
+
+        var left = 0
+        var ans = 0
+
+        for (right in s.indices) {
+
+            val c = s[right]
+
+            if (map.containsKey(c))
+                left = maxOf(left, map[c]!! + 1)
+
+            map[c] = right
+
+            ans = maxOf(ans, right - left + 1)
+        }
+
+        return ans
+    }
+
+    // minSubArrayLen
+    fun minSubArrayLen(target: Int, nums: IntArray): Int {
+
+        var left = 0
+        var sum = 0
+        var ans = Int.MAX_VALUE
+
+        for (right in nums.indices) {
+
+            sum += nums[right]
+
+            while (sum >= target) {
+
+                ans = minOf(ans, right - left + 1)
+
+                sum -= nums[left]
+                left++
+            }
+        }
+
+        return if (ans == Int.MAX_VALUE) 0 else ans
+    }
+
     // Move Zeroes
     fun moveZeroes(nums: IntArray) {
         var index = 0
@@ -168,7 +237,7 @@ class GrindJuly16 {
     }
 
     // Palindrome number
-    fun isPalindrome(x: Int): Boolean {
+    fun isPalindromeNumber(x: Int): Boolean {
         if (x < 0) return false
 
         var original = x
@@ -180,6 +249,31 @@ class GrindJuly16 {
         }
 
         return reversed == x
+    }
+
+    // Palindrome string
+    // Input: "A man, a plan, a canal: Panama"
+    // Output: true
+    fun isPalindromeString(s: String): Boolean {
+        var left = 0
+        var right = s.lastIndex
+
+        while (left < right) {
+
+            while (left < right && !s[left].isLetterOrDigit())
+                left++
+
+            while (left < right && !s[right].isLetterOrDigit())
+                right--
+
+            if (s[left].lowercaseChar() != s[right].lowercaseChar())
+                return false
+
+            left++
+            right--
+        }
+
+        return true
     }
 
     fun removeAdjacentDuplicates(input: String): String {
@@ -335,6 +429,7 @@ class GrindJuly16 {
                 current = current.next
             }
         }
+
         // Search
         fun contains(value: Int): Boolean {
             var current = head
@@ -349,7 +444,15 @@ class GrindJuly16 {
 
         // Reverse
         fun reverse() {
-
+            var current = head
+            var prev: ListNode? = null
+            while (current != null) {
+                val next = current.next
+                current.next = prev
+                prev = current
+                current = next
+            }
+            head = prev
         }
 
     }
@@ -389,6 +492,7 @@ class GrindJuly16 {
             dfs(it, visited)
         }
     }
+
     fun bfs(start: Int) {
 
         val queue = ArrayDeque<Int>()
