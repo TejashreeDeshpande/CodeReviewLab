@@ -1,7 +1,6 @@
 package com.tejashree.codereviewlab.features.vehicle.batterystatus.data.repository
 
 import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import com.tejashree.codereviewlab.features.vehicle.batterystatus.data.model.BatteryTelemetry
@@ -11,6 +10,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
+import androidx.datastore.preferences.core.Preferences
 import kotlin.time.Duration.Companion.milliseconds
 
 /**
