@@ -289,7 +289,7 @@ class GrindJuly16 {
         return stack.joinToString("")
     }
 
-    fun firstUniqChar(s: String): Int {
+    fun firstUniqueChar(s: String): Int {
         val count = IntArray(26)
 
         for (c in s)

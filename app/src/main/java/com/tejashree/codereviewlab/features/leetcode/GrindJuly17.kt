@@ -142,5 +142,33 @@ class GrindJuly17 {
         }
         return true
     }
+    fun removeAdjacentDuplicates(input: String): String {
+        val stack = ArrayDeque<Char>()
 
+        for (char in input) {
+            if (stack.lastOrNull() == char) {
+                stack.removeLast()
+            } else {
+                stack.addLast(char)
+            }
+        }
+        return stack.joinToString("")
+    }
+
+    class MovingAverage(
+        private val windowSize: Int
+    ) {
+        private val queue = ArrayDeque<Int>()
+        private var sum = 0.0
+
+        fun next(value: Int): Double {
+            queue.addLast(value)
+            sum += value
+
+            if (queue.size > windowSize) {
+                sum -= queue.removeFirst()
+            }
+            return sum / queue.size
+        }
+    }
 }
