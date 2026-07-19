@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -38,6 +39,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -77,8 +79,7 @@ fun PreviewEmployeeDirectoryListScreen() {
 //@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EmployeeDirectory(
-    viewModel: EmployeesViewModel = koinViewModel(),
-    onBack: () -> Unit
+    viewModel: EmployeesViewModel = koinViewModel(), onBack: () -> Unit
 ) {
 
     val state by viewModel.uiState.collectAsStateWithLifecycle()
@@ -109,57 +110,48 @@ fun EmployeeDirectoryContent(
     onRefreshClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Scaffold(
-        modifier = modifier,
-        containerColor = Background,
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = "Employee Directory",
-                        color = TextPrimary,
-                        fontWeight = FontWeight.Bold
-                    )
-                },
-                navigationIcon = {
-                    IconButton(onClick = onBack) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Back",
-                            tint = TextPrimary
-                        )
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Background
-                )
+    Scaffold(modifier = modifier, containerColor = Background, topBar = {
+        TopAppBar(
+            title = {
+            Text(
+                text = "Employee Directory",
+                color = TextPrimary,
+                fontWeight = FontWeight.Bold
             )
-        },
-        floatingActionButton = {
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
-                modifier = Modifier.padding(16.dp)
-            ) {
-                FloatingActionButton(onClick = onErrorClick) {
-                    Icon(
-                        imageVector = Icons.Default.Warning,
-                        contentDescription = "Error"
-                    )
-                }
-                FloatingActionButton(onClick = onEmptyClick) {
-                    Icon(
-                        imageVector = Icons.Default.Inbox,
-                        contentDescription = "Empty List"
-                    )
-                }
-                FloatingActionButton(onClick = onRefreshClick) {
-                    Icon(
-                        imageVector = Icons.Default.Refresh,
-                        contentDescription = "Refresh"
-                    )
-                }
+        }, navigationIcon = {
+            IconButton(onClick = onBack) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                    contentDescription = "Back",
+                    tint = TextPrimary
+                )
             }
-        }) { innerPadding ->
+        }, colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = Background
+        )
+        )
+    }, floatingActionButton = {
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            modifier = Modifier.padding(16.dp)
+        ) {
+            FloatingActionButton(onClick = onErrorClick) {
+                Icon(
+                    imageVector = Icons.Default.Warning, contentDescription = "Error"
+                )
+            }
+            FloatingActionButton(onClick = onEmptyClick) {
+                Icon(
+                    imageVector = Icons.Default.Inbox, contentDescription = "Empty List"
+                )
+            }
+            FloatingActionButton(onClick = onRefreshClick) {
+                Icon(
+                    imageVector = Icons.Default.Refresh, contentDescription = "Refresh"
+                )
+            }
+        }
+    }) { innerPadding ->
 
         when (state) {
             is EmployeeUiState.Loading -> {
@@ -180,15 +172,13 @@ fun EmployeeDirectoryContent(
                     EmployeeErrorType.UNKNOWN -> stringResource(R.string.unknown)
                 }
                 EmployeeDirectoryError(
-                    message = errorMessage,
-                    modifier = Modifier.padding(innerPadding)
+                    message = errorMessage, modifier = Modifier.padding(innerPadding)
                 )
             }
 
             is EmployeeUiState.Success -> {
                 EmployeesDirectoryListView(
-                    modifier = Modifier.padding(innerPadding),
-                    employees = state.data
+                    modifier = Modifier.padding(innerPadding), employees = state.data
                 )
             }
         }
@@ -198,45 +188,42 @@ fun EmployeeDirectoryContent(
 @Composable
 fun EmployeeDirectoryLoading(modifier: Modifier = Modifier) {
     Box(
-        modifier = Modifier
-            .fillMaxSize(),
-        contentAlignment = Alignment.Center
+        modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
     ) {
         CircularProgressIndicator(
             modifier = Modifier.semantics {
                 contentDescription = "Loading employees"
-            }
-        )
+            })
     }
 }
 
 @Composable
 fun EmployeeDirectoryEmpty(modifier: Modifier = Modifier) {
-    Box(
-        modifier = modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        Text("Employees List is Empty")
-    }
+    Text(
+        "Employees List is Empty",
+        modifier = modifier
+            .fillMaxSize()
+            .wrapContentSize(Alignment.Center),
+        textAlign = TextAlign.Center
+    )
 }
 
 @Composable
 fun EmployeeDirectoryError(
-    message: String,
-    modifier: Modifier = Modifier
+    message: String, modifier: Modifier = Modifier
 ) {
-    Box(
-        modifier = modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(message)
-    }
+    Text(
+        message,
+        modifier = modifier
+            .fillMaxSize()
+            .wrapContentSize(Alignment.Center),
+        textAlign = TextAlign.Center
+    )
 }
 
 @Composable
 fun EmployeesDirectoryListView(
-    employees: ImmutableList<Employee>,
-    modifier: Modifier = Modifier
+    employees: ImmutableList<Employee>, modifier: Modifier = Modifier
 ) {
     LazyColumn(
         modifier = modifier
@@ -244,8 +231,7 @@ fun EmployeesDirectoryListView(
             .padding(16.dp)
     ) {
         items(
-            items = employees,
-            key = { employee -> employee.uuid }) { employee ->
+            items = employees, key = { employee -> employee.uuid }) { employee ->
             ListItem(
                 headlineContent = { Text(employee.fullName) },
                 supportingContent = { if (employee.team != null) Text(employee.team) },
@@ -267,8 +253,7 @@ fun EmployeesDirectoryListView(
                         )
                     }
 
-                }
-            )
+                })
         }
     }
 }
