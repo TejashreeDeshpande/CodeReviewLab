@@ -48,6 +48,10 @@ dependencies {
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    // Use kapt or ksp for the compiler if needed, but for now just fix the reference
+    // implementation(libs.androidx.room.compiler)
     implementation(libs.androidx.ui)
 
     implementation(libs.kotlinx.collections.immutable)
