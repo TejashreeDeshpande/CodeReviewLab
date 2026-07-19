@@ -1,0 +1,37 @@
+
+Android Automotive System Design
+
+User Case
+
+Help drivers understand how efficiently they are driving by showing:
+- Current trip efficiency
+- Daily, weekly, and monthly trends
+- Fuel economy for ICE vehicles: MPG, km/L or L/100 km
+- Energy consumption for EVs: mi/kWh or kWh/100 km
+- Driving factors such as acceleration, braking, speed, climate usage, elevation, and idling
+- Personalized recommendations to improve efficiency
+
+2. Product Requirements
+Functional requirements
+
+The application should:
+
+-Display live efficiency during a trip.
+-Store completed trip summaries.
+-Aggregate efficiency by day, week, and month.
+-Show efficiency trends using charts.
+-Compare the current period with the previous period.
+-Identify factors that reduced efficiency.
+-Work offline using locally stored telemetry.
+-Support ICE, hybrid, plug-in hybrid, and EV vehicles.
+-Allow users to switch between distance and efficiency units.
+
+Non-functional requirements
+
+-The UI should update without excessive recomposition.
+-Telemetry processing must not block the main thread.
+-Trip history should remain available offline.
+-The system should process large telemetry streams efficiently.
+-Raw location data should be retained only when necessary.
+-Calculations must handle missing or invalid sensor values.
+-The UI should clearly indicate stale or incomplete data.
