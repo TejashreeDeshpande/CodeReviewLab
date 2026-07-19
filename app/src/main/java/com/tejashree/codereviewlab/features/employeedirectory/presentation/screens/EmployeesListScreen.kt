@@ -87,16 +87,13 @@ fun EmployeeDirectory(
     val currentOnBack by rememberUpdatedState(onBack)
     val onBackStable = remember { { currentOnBack() } }
 
-    val onErrorClick = remember(viewModel) { { viewModel.loadEmployees(EmployeeResult.ERROR) } }
-    val onEmptyClick = remember(viewModel) { { viewModel.loadEmployees(EmployeeResult.EMPTY) } }
-    val onRefreshClick = remember(viewModel) { { viewModel.loadEmployees(EmployeeResult.SUCCESS) } }
 
     EmployeeDirectoryContent(
         state = state,
         onBack = onBackStable,
-        onErrorClick = onErrorClick,
-        onEmptyClick = onEmptyClick,
-        onRefreshClick = onRefreshClick
+        onErrorClick = { viewModel.loadEmployees(EmployeeResult.ERROR) },
+        onEmptyClick = { viewModel.loadEmployees(EmployeeResult.EMPTY) },
+        onRefreshClick = { viewModel.loadEmployees(EmployeeResult.SUCCESS) }
     )
 }
 
@@ -188,7 +185,7 @@ fun EmployeeDirectoryContent(
 @Composable
 fun EmployeeDirectoryLoading(modifier: Modifier = Modifier) {
     Box(
-        modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
+        modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center
     ) {
         CircularProgressIndicator(
             modifier = Modifier.semantics {
