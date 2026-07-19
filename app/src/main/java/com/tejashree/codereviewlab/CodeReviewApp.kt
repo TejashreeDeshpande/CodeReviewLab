@@ -1,6 +1,7 @@
 package com.tejashree.codereviewlab
 
 import android.app.Application
+import com.tejashree.codereviewlab.features.employeedirectory.di.employeeModule
 import com.tejashree.codereviewlab.features.leaderboard.di.leaderboardModule
 import com.tejashree.codereviewlab.features.mvi.notification.di.notificationAppModule
 import com.tejashree.codereviewlab.features.mvvm.notes.di.notesAppModule
@@ -25,6 +26,7 @@ class CodeReviewApp : Application() {
             modules(leaderboardModule)
             modules(parkGoAppModule)
             modules(batteryStatusModule)
+            modules(employeeModule)
         }
     }
 }

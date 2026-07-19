@@ -38,4 +38,13 @@
     <string name="park_go_nav_park">Park</string>
     <string name="park_go_nav_history">History</string>
     <string name="park_go_nav_settings">Settings</string>
+
+    <!-- Employee Directory -->
+    <string name="malformed_data">The data from the server was invalid.</string>
+    <string name="server_error">There was an error on the server. Please try again later.</string>
+    <string name="no_internet">No internet connection. Please check your network.</string>
+    <string name="timeout">The request timed out. Please try again.</string>
+    <string name="forbidden">You do not have permission to access this data.</string>
+    <string name="unknown">An unknown error occurred.</string>
+
 </resources>

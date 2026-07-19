@@ -38,6 +38,7 @@ dependencies {
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.foundation.layout)
+    implementation(libs.androidx.datastore.preferences)
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.runtime)
     implementation(libs.androidx.compose.ui)
@@ -50,24 +51,39 @@ dependencies {
 
     implementation(libs.kotlinx.collections.immutable)
 
-    implementation("androidx.compose.material:material-icons-extended")
+    implementation(libs.androidx.compose.icons.extended)
     // Koin BOM to manage versions consistently
-    implementation(platform("io.insert-koin:koin-bom:4.1.0"))
+    implementation(platform(libs.koin.bom))
     // Core Koin Android features
-    implementation("io.insert-koin:koin-android")
+    implementation(libs.koin.android)
     // Optional: If you use Jetpack Compose
-    implementation("io.insert-koin:koin-androidx-compose")
+    implementation(libs.koin.androidx.compose)
 
     // Navigation 3 artifacts
     implementation(libs.androidx.navigation3.runtime)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.navigation3.ui)
-    implementation("androidx.lifecycle:lifecycle-viewmodel-navigation3:2.11.0")
+    implementation(libs.androidx.lifecycle.viewmodel.navigation3)
+
+    // Coil
+    implementation(libs.coil.compose)
 
     // Serialization engine for type-safe route parsing
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
+    implementation(libs.kotlinx.serialization.json)
+
+    // Retrofit (Network library)
+    implementation(libs.retrofit)
+
+    // Kotlinx Serialization Converter (Bridges Retrofit and Serialization)
+    implementation(libs.retrofit.converter.kotlinx.serialization)
+
+    // OkHttp (Optional, but highly recommended for logging and timeouts)
+    implementation(libs.okhttp)
+    implementation(libs.okhttp.logging.interceptor)
 
     testImplementation(libs.junit)
+    testImplementation(libs.mockk)
+    testImplementation(libs.kotlinx.coroutines.test)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     androidTestImplementation(libs.androidx.espresso.core)
