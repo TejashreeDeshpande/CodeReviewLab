@@ -17,6 +17,7 @@ import com.tejashree.codereviewlab.features.common.AppTopBar
 
 enum class Feature(val title: String, val description: String) {
     EmployeeDirectory("🎨 Employee Directory", "LazyColumn"),
+    Chat("🎨 Chat", "LazyColumn"),
     Counter("🔢 Simple Counter", "Basic State Management (rememberSavable)"),
     SearchFilter("🔍 Search & Filter", "Real-time filtering & Material 3 UI"),
     Leaderboard("🏆 Leaderboard", "List Performance & Animations"),

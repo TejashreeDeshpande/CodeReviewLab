@@ -10,6 +10,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.tejashree.codereviewlab.features.canvas.FluidCanvasScreen
 import com.tejashree.codereviewlab.features.canvas.ProfessionalKaleidoscopeCanvas
+import com.tejashree.codereviewlab.features.chat.data.ChatViewModel
+import com.tejashree.codereviewlab.features.chat.presentation.ChatScreen
 import com.tejashree.codereviewlab.features.counter.SimpleCounter
 import com.tejashree.codereviewlab.features.dashboard.DashboardScreen
 import com.tejashree.codereviewlab.features.dashboard.Feature
@@ -56,6 +58,13 @@ fun AppNavigation() {
         composable(Feature.EmployeeDirectory.name) {
             val viewModel: EmployeesViewModel = koinViewModel()
             EmployeeDirectory(
+                viewModel = viewModel,
+                onBack = { navController.popBackStack() })
+        }
+
+        composable(Feature.Chat.name) {
+            val viewModel: ChatViewModel = koinViewModel()
+            ChatScreen(
                 viewModel = viewModel,
                 onBack = { navController.popBackStack() })
         }
